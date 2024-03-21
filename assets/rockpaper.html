@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors Game</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        #start-menu,
+        #end-card,
+        #winner-card,
+        #loser-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 30px;
+        }
+
+        #start-button,
+        #retry-button,
+        #retry-button-winner,
+        #retry-button-loser {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+
+        #game-container,
+        #end-card,
+        #winner-card,
+        #loser-card {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 40px;
+        }
+
+        .choice {
+            width: 150px; /* Set a fixed width for all choice buttons */
+            margin: 10px;
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .choice:hover {
+            background-color: #1565C0;
+            transform: scale(1.1);
+        }
+
+        .choice:active {
+            background-color: #0D47A1;
+            transform: scale(0.9);
+        }
+
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        #result span {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 5px;
+        }
+
+        @keyframes winAnimation {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.2);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes loseAnimation {
+            0% {
+                transform: rotate(0);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+
+            100% {
+                transform: rotate(0);
+            }
+        }
+
+        .win {
+            color: green;
+            animation: winAnimation 0.5s ease-in-out;
+        }
+
+        .lose {
+            color: red;
+            animation: loseAnimation 0.5s ease-in-out;
+        }
+
+        #scoreboard {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 200px;
+            margin-top: -5px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #winner-card,
+        #loser-card {
+            color: #fff;
+            background-color: #333;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Rock Paper Scissors</h1>
+
+    <div id="start-menu">
+        <button id="start-button" onclick="startGame()">Start Game</button>
+    </div>
+
+    <div id="game-container">
+        <div class="choice" onclick="playGame('rock')"><span class="icon">✊</span>Rock</div>
+        <div class="choice" onclick="playGame('paper')"><span class="icon">📄</span>Paper</div>
+        <div class="choice" onclick="playGame('scissors')"><span class="icon">✂️</span>Scissors</div>
+        <div id="result"></div>
+    </div>
+
+    <div id="end-card">
+        <p id="end-message"></p>
+        <button id="retry-button" onclick="retryGame()">Retry</button>
+    </div>
+
+    <div id="winner-card">
+        <h2>Congratulations!</h2>
+        <p>You are the winner!</p>
+        <button id="retry-button-winner" onclick="redirectToStartMenu()">Play Again</button>
+    </div>
+
+    <div id="loser-card">
+        <h2>Sorry!</h2>
+        <p>You lost three times in a row. Better luck next time!</p>
+        <button id="retry-button-loser" onclick="redirectToStartMenu()">Retry</button>
+    </div>
+
+    <div id="scoreboard">
+        <h2>Scoreboard</h2>
+        <table>
+            <tr>
+                <th>User Wins</th>
+                <th>Computer Wins</th>
+                <th>Ties</th>
+            </tr>
+            <tr id="score-row">
+                <td id="user-wins">0</td>
+                <td id="computer-wins">0</td>
+                <td id="ties">0</td>
+            </tr>
+        </table>
+    </div>
+
+    <script>
+        let userWins = 0;
+        let computerWins = 0;
+        let ties = 0;
+        let consecutiveWins = 0;
+        let consecutiveLosses = 0;
+        let choiceButtons = document.querySelectorAll('.choice');
+        let gameInProgress = false;
+
+        function startGame() {
+            document.getElementById('start-menu').style.display = 'none';
+            document.getElementById('game-container').style.display = 'flex';
+            document.getElementById('scoreboard').style.display = 'block';
+            document.getElementById('user-wins').innerText = userWins;
+            document.getElementById('computer-wins').innerText = computerWins;
+            document.getElementById('ties').innerText = ties;
+        }
+
+        function disableChoices() {
+            gameInProgress = true;
+            choiceButtons.forEach(button => {
+                button.setAttribute('disabled', true);
+            });
+            setTimeout(() => {
+                enableChoices();
+            }, 3500);
+        }
+
+        function enableChoices() {
+            gameInProgress = false;
+            choiceButtons.forEach(button => {
+                button.removeAttribute('disabled');
+            });
+        }
+
+        function playGame(playerChoice) {
+            // If the game is in progress, don't allow the user to make another choice
+            if (gameInProgress) {
+                return;
+            }
+
+            // Disable choices for 3 seconds
+            disableChoices();
+
+            const choices = ['rock', 'paper', 'scissors'];
+            const computerChoice = choices[Math.floor(Math.random() * choices.length)];
+
+            setTimeout(() => {
+                document.getElementById('result').innerText = `You chose ${playerChoice}.`;
+                // Show computer's choice after 1 second
+                setTimeout(() => {
+                    document.getElementById('result').innerHTML += `<span>Computer chose ${computerChoice}.</span>`;
+                    // Show the result after an additional 0.5 seconds
+                    setTimeout(() => {
+                        const result = determineWinner(playerChoice, computerChoice);
+                        document.getElementById('result').innerHTML += `<span>${result}</span>`;
+                        updateScore(result);
+
+                        // Clear the result after 5 seconds
+                        setTimeout(() => {
+                            document.getElementById('result').innerText = '';
+                        }, 2000);
+                    }, 500);
+                }, 1000);
+            }, 500);
+        }
+
+        function determineWinner(player, computer) {
+            if (player === computer) {
+                ties++;
+                consecutiveWins = 0;
+                consecutiveLosses = 0;
+                return 'It\'s a tie!';
+            } else if (
+                (player === 'rock' && computer === 'scissors') ||
+                (player === 'paper' && computer === 'rock') ||
+                (player === 'scissors' && computer === 'paper')
+            ) {
+                userWins++;
+                consecutiveWins++;
+                consecutiveLosses = 0;
+                return 'You win!';
+            } else {
+                computerWins++;
+                consecutiveWins = 0;
+                consecutiveLosses++;
+                return 'Computer wins!';
+            }
+        }
+
+        function updateScore(result) {
+            document.getElementById('user-wins').innerText = userWins;
+            document.getElementById('computer-wins').innerText = computerWins;
+            document.getElementById('ties').innerText = ties;
+
+            if (consecutiveWins === 3) {
+                showWinnerCard();
+            } else if (consecutiveLosses === 3) {
+                showLoserCard();
+            }
+        }
+
+        function showEndCard(result) {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('end-card').style.display = 'flex';
+            document.getElementById('end-message').innerText = result;
+
+            if (result.includes('win')) {
+                document.getElementById('result').classList.add('win');
+            } else {
+                document.getElementById('result').classList.add('lose');
+            }
+        }
+
+        function showWinnerCard() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('winner-card').style.display = 'flex';
+        }
+
+        function showLoserCard() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('loser-card').style.display = 'flex';
+        }
+
+        function retryGame() {
+            document.getElementById('game-container').style.display = 'flex';
+            document.getElementById('end-card').style.display = 'none';
+            document.getElementById('winner-card').style.display = 'none';
+            document.getElementById('loser-card').style.display = 'none';
+
+            // Clear the result
+            document.getElementById('result').innerText = '';
+            document.getElementById('result').classList.remove('win', 'lose');
+
+            // Clear any pending animations
+            document.getElementById('result').style.animation = 'none';
+            void document.getElementById('result').offsetWidth; // Trigger reflow
+            document.getElementById('result').style.animation = null;
+
+            userWins = 0;
+            computerWins = 0;
+            ties = 0;
+
+            document.getElementById('user-wins').innerText = userWins;
+            document.getElementById('computer-wins').innerText = computerWins;
+            document.getElementById('ties').innerText = ties;
+        }
+
+        function redirectToStartMenu() {
+            document.getElementById('game-container').style.display = 'none';
+            document.getElementById('end-card').style.display = 'none';
+            document.getElementById('winner-card').style.display = 'none';
+            document.getElementById('loser-card').style.display = 'none';
+            document.getElementById('start-menu').style.display = 'flex';
+        }
+    </script>
+
+</body>
+
+</html>

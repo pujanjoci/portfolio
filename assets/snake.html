@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Snake Game</title>
+    <style>
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            background: black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        canvas {
+            border: 1px solid white;
+        }
+
+        #startButton {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <canvas width="400" height="400" id="game"></canvas>
+    <button id="startButton" onclick="startGame()">Start Game</button>
+    <script>
+        var canvas = document.getElementById('game');
+        var context = canvas.getContext('2d');
+
+        var gridSize = 20; // Size of the grid
+        var count = 0;
+        var score = 0;
+
+        var snake = {
+            x: 10 * gridSize, // Initial position adjusted to the center of the canvas
+            y: 10 * gridSize,
+
+            dx: gridSize,
+            dy: 0,
+
+            cells: [],
+            maxCells: 4
+        };
+
+        var apple = {
+            x: 15 * gridSize,
+            y: 15 * gridSize
+        };
+
+        var gameStarted = false;
+        var gameover = false;
+
+        function drawStartGame() {
+            context.fillStyle = 'black';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = 'white';
+            context.font = '16px Arial';
+            context.fillText('Snake Game', canvas.width / 4 - 10, canvas.height / 2 - 16);
+            context.font = '14px Arial';
+            context.fillText('Press "Start Game" to play', canvas.width / 4 - 10, canvas.height / 2);
+        }
+
+        function drawGameOver() {
+            context.fillStyle = 'black';
+            context.fillRect(0, 0, canvas.width, canvas.height);
+            context.fillStyle = 'white';
+            context.font = '16px Arial';
+            context.fillText('Game Over', canvas.width / 3 - 8, canvas.height / 2 - 16);
+            context.font = '14px Arial';
+            context.fillText('Score: ' + score, canvas.width / 3 - 8, canvas.height / 2);
+            context.fillText('Press "Start Game" to play again', canvas.width / 4 - 10, canvas.height / 2 + 20);
+        }
+
+        function loop() {
+            if (gameStarted && !gameover) {
+                requestAnimationFrame(loop);
+
+                if (++count < 8) {
+                    return;
+                }
+
+                count = 0;
+                context.clearRect(0, 0, canvas.width, canvas.height);
+
+                snake.x += snake.dx;
+                snake.y += snake.dy;
+
+                if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
+                    gameover = true;
+                    drawGameOver();
+                    document.getElementById('startButton').style.display = 'inline-block';
+                    return;
+                }
+
+                snake.cells.unshift({ x: snake.x, y: snake.y });
+
+                if (snake.cells.length > snake.maxCells) {
+                    snake.cells.pop();
+                }
+
+                context.fillStyle = 'red';
+                context.fillRect(apple.x, apple.y, gridSize - 1, gridSize - 1);
+
+                context.fillStyle = 'green';
+                snake.cells.forEach(function (cell, index) {
+                    context.fillRect(cell.x, cell.y, gridSize - 1, gridSize - 1);
+
+                    if (index === 0 && cell.x === apple.x && cell.y === apple.y) {
+                        snake.maxCells++;
+                        score++;
+                        apple.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
+                        apple.y = Math.floor(Math.random() * (canvas.height / gridSize)) * gridSize;
+                    }
+
+                    for (var i = index + 1; i < snake.cells.length; i++) {
+                        if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
+                            gameover = true;
+                            drawGameOver();
+                            document.getElementById('startButton').style.display = 'inline-block';
+                            return;
+                        }
+                    }
+                });
+
+                context.fillStyle = 'white';
+                context.font = '14px Arial';
+                context.fillText('Score: ' + score, 10, 20);
+            } else {
+                drawStartGame();
+            }
+        }
+
+        function startGame() {
+            gameStarted = true;
+            gameover = false;
+            snake.x = 10 * gridSize;
+            snake.y = 10 * gridSize;
+            snake.cells = [];
+            snake.maxCells = 4;
+            snake.dx = gridSize;
+            snake.dy = 0;
+            score = 0;
+            document.getElementById('startButton').style.display = 'none';
+            loop();
+        }
+
+        document.addEventListener('keydown', function (e) {
+            if (gameStarted && !gameover) {
+                if (e.which === 37 && snake.dx === 0) {
+                    snake.dx = -gridSize;
+                    snake.dy = 0;
+                } else if (e.which === 38 && snake.dy === 0) {
+                    snake.dy = -gridSize;
+                    snake.dx = 0;
+                } else if (e.which === 39 && snake.dx === 0) {
+                    snake.dx = gridSize;
+                    snake.dy = 0;
+                } else if (e.which === 40 && snake.dy === 0) {
+                    snake.dy = gridSize;
+                    snake.dx = 0;
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
