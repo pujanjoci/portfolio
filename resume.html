@@ -214,7 +214,8 @@
             </div>
             <div id="works">
                 <button id="mycv">My CV</button>
-                <button id="myworks">My Works</button>
+                <button id="myworks">Some Games</button>
+                <button id="works">Project Templet</button>
             </div>
         </div>
     </div>
@@ -231,6 +232,10 @@
         var randomIndex = Math.floor(Math.random() * files.length);
         var selectedFile = files[randomIndex];
         window.location.href = "assets/" + selectedFile;
+    });
+
+    document.getElementById("works").addEventListener("click", function () {
+        window.location.href = "project/index.html";
     });
 </script>
 
