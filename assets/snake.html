@@ -38,32 +38,87 @@
             cursor: pointer;
         }
 
+        /* Style for arrow buttons */
         .arrowButton {
-            background-color: transparent;
+            background-color: white;
             border: none;
             font-size: 24px;
-            color: white;
+            color: black;
             cursor: pointer;
             margin: 5px;
-            display: none;
-            /* Initially hide arrows */
+            width: 100px;
+            height: 100px;
+            position: relative;
+            display: inline-flex;
+            /* Make buttons display inline */
+            align-items: center;
+            /* Center content vertically */
+            justify-content: center;
+            /* Center content horizontally */
         }
 
-        .arrowButton.show {
+        /* Styling for up arrow */
+        .arrowButton.up:before {
+            content: '';
+            border: solid black;
+            border-width: 0 4px 4px 0;
             display: inline-block;
-            /* Show arrows */
+            padding: 6px;
+            transform: rotate(-135deg);
         }
 
+        /* Styling for left arrow */
+        .arrowButton.left:before {
+            content: '';
+            border: solid black;
+            border-width: 0 4px 4px 0;
+            display: inline-block;
+            padding: 6px;
+            transform: rotate(135deg);
+        }
+
+        /* Styling for down arrow */
+        .arrowButton.down:before {
+            content: '';
+            border: solid black;
+            border-width: 0 4px 4px 0;
+            display: inline-block;
+            padding: 6px;
+            transform: rotate(45deg);
+        }
+
+        /* Styling for right arrow */
+        .arrowButton.right:before {
+            content: '';
+            border: solid black;
+            border-width: 0 4px 4px 0;
+            display: inline-block;
+            padding: 6px;
+            transform: rotate(-45deg);
+            margin-left: 10px;
+            /* Position the right arrow slightly to the right */
+        }
+
+        /* Container styling */
         .arrowContainer {
             position: absolute;
-            bottom: 10px;
-            text-align: center;
-            width: 100%;
+            top: calc(50% + 100%);
+            /* Position container below canvas and button */
+            left: 50%;
+            transform: translateX(-50%);
+            width: fit-content;
+            display: flex;
+            flex-direction: column;
+            /* Display buttons vertically */
+            align-items: center;
+            /* Center buttons horizontally */
         }
 
+        /* Row styling */
         .arrowRow {
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
+            width: 100%;
         }
 
         #score {
@@ -83,14 +138,13 @@
         <button id="startButton" onclick="startGame()">Start Game</button>
         <div class="arrowContainer" id="arrowContainer">
             <div class="arrowRow">
-                <button class="arrowButton" id="leftArrow" onclick="changeDirection(-1, 0)">&#8592;</button>
+                <div class="arrowButton up" id="upArrow" onclick="changeDirection(0, -1)"></div>
             </div>
             <div class="arrowRow">
-                <button class="arrowButton" id="upArrow" onclick="changeDirection(0, -1)">&#8593;</button>
-                <button class="arrowButton" id="downArrow" onclick="changeDirection(0, 1)">&#8595;</button>
-            </div>
-            <div class="arrowRow">
-                <button class="arrowButton" id="rightArrow" onclick="changeDirection(1, 0)">&#8594;</button>
+                <div class="arrowButton left" id="leftArrow" onclick="changeDirection(-1, 0)"></div>
+                <div class="arrowButton down" id="downArrow" onclick="changeDirection(0, 1)"></div>
+                <div class="arrowButton right" id="rightArrow" onclick="changeDirection(1, 0)"></div>
+
             </div>
         </div>
         <div id="score"></div>
@@ -122,6 +176,11 @@
 
         var gameStarted = false;
         var gameover = false;
+
+        // Function to detect if the user is using a mobile browser
+        function isMobileBrowser() {
+            return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        }
 
         function drawGameOver() {
             context.fillStyle = 'black';
@@ -163,11 +222,9 @@
                 context.fillStyle = 'red';
                 context.fillRect(apple.x, apple.y, gridSize - 1, gridSize - 1);
 
-    context.fillStyle = 'green';
+                context.fillStyle = 'green';
                 snake.cells.forEach(function (cell, index) {
-                    context.fillRect(cell.x, cell.y, gridSize - 1, gridSize - 1);
-
-                    if (index === 0 && cell.x === apple.x && cell.y === apple.y) {
+                    context.fillRect(cell.x, cell.y, gridSize - 1, gridSize - 1); if (index === 0 && cell.x === apple.x && cell.y === apple.y) {
                         snake.maxCells++;
                         score++;
                         apple.x = Math.floor(Math.random() * (canvas.width / gridSize)) * gridSize;
@@ -184,55 +241,59 @@
                     }
                 });
 
-                context.fillStyle = 'white';
-                context.font = '14px Arial';
-                context.fillText('Score: ' + score, 10, 20);
-            } else {
-                // drawStartGame();
-            }
-        }
+                                    context.fillStyle = 'white';
+                                    context.font = '14px Arial';
+                                    context.fillText('Score: ' + score, 10, 20);
+                                } else {
+                                    // drawStartGame();
+                                }
+                            }
 
-        function startGame() {
-            gameStarted = true;
-            gameover = false;
-            document.getElementById('startButton').style.display = 'none'; // Hide Start Game button
-            document.getElementById('arrowContainer').style.display = 'block'; // Show arrows
-            snake.x = 10 * gridSize;
-            snake.y = 10 * gridSize;
-            snake.cells = [];
-            snake.maxCells = 4;
-            snake.dx = gridSize;
-            snake.dy = 0;
-            score = 0;
-            document.getElementById('score').textContent = ''; // Clear score text
-            loop();
-        }
+                            function startGame() {
+                                gameStarted = true;
+                                gameover = false;
+                                document.getElementById('startButton').style.display = 'none'; // Hide Start Game button
+                                document.getElementById('arrowContainer').style.display = isMobileBrowser() ? 'flex' : 'none'; // Show/hide arrows based on browser type
+                                snake.x = 10 * gridSize;
+                                snake.y = 10 * gridSize;
+                                snake.cells = [];
+                                snake.maxCells = 4;
+                                snake.dx = gridSize;
+                                snake.dy = 0;
+                                score = 0;
+                                document.getElementById('score').textContent = ''; // Clear score text
+                                loop();
+                            }
 
-        function changeDirection(dx, dy) {
-            snake.dx = dx * gridSize;
-            snake.dy = dy * gridSize;
-        }
+                            function changeDirection(dx, dy) {
+                                snake.dx = dx * gridSize;
+                                snake.dy = dy * gridSize;
+                            }
 
-        // Event listener for arrow key presses
-        document.addEventListener('keydown', function (e) {
-            if (gameStarted && !gameover) {
-                if (e.key === 'ArrowLeft' && snake.dx === 0) {
-                    snake.dx = -gridSize;
-                    snake.dy = 0;
-                } else if (e.key === 'ArrowUp' && snake.dy === 0) {
-                    snake.dy = -gridSize;
-                    snake.dx = 0;
-                } else if (e.key === 'ArrowRight' && snake.dx === 0) {
-                    snake.dx = gridSize;
-                    snake.dy = 0;
-                } else if (e.key === 'ArrowDown' && snake.dy === 0) {
-                    snake.dy = gridSize;
-                    snake.dx = 0;
-                }
-            }
-        });
+                            // Event listener for arrow key presses (for desktop)
+                            document.addEventListener('keydown', function (e) {
+                                if (gameStarted && !gameover) {
+                                    if (e.key === 'ArrowLeft' && snake.dx === 0) {
+                                        changeDirection(-1, 0);
+                                    } else if (e.key === 'ArrowUp' && snake.dy === 0) {
+                                        changeDirection(0, -1);
+                                    } else if (e.key === 'ArrowRight' && snake.dx === 0) {
+                                        changeDirection(1, 0);
+                                    } else if (e.key === 'ArrowDown' && snake.dy === 0) {
+                                        changeDirection(0, 1);
+                                    }
+                                }
+                            });
 
-    </script>
+                            // Call the function to show arrow buttons if it's a mobile browser
+                            // showArrowButtons();
+
+                            // Adjust the arrow buttons display based on the browser type
+                            document.addEventListener('DOMContentLoaded', function () {
+                                var arrowContainer = document.getElementById('arrowContainer');
+                                arrowContainer.style.display = isMobileBrowser() ? 'flex' : 'none';
+                            });
+                        </script>
 </body>
 
 </html>
