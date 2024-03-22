@@ -8,17 +8,22 @@
         body {
             height: 100%;
             margin: 0;
-        }
-
-        body {
-            background: black;
             display: flex;
             align-items: center;
             justify-content: center;
+            background-color: black;
+        }
+
+        #gameContainer {
+            position: relative;
+            text-align: center;
         }
 
         canvas {
             border: 1px solid white;
+            display: block;
+            margin: 0 auto;
+            /* Center the canvas */
         }
 
         #startButton {
@@ -29,15 +34,68 @@
             text-decoration: none;
             display: inline-block;
             font-size: 16px;
-            margin: 4px 2px;
+            margin-top: 10px;
             cursor: pointer;
+        }
+
+        .arrowButton {
+            background-color: transparent;
+            border: none;
+            font-size: 24px;
+            color: white;
+            cursor: pointer;
+            margin: 5px;
+            display: none;
+            /* Initially hide arrows */
+        }
+
+        .arrowButton.show {
+            display: inline-block;
+            /* Show arrows */
+        }
+
+        .arrowContainer {
+            position: absolute;
+            bottom: 10px;
+            text-align: center;
+            width: 100%;
+        }
+
+        .arrowRow {
+            display: flex;
+            justify-content: center;
+        }
+
+        #score {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 24px;
         }
     </style>
 </head>
 
 <body>
-    <canvas width="400" height="400" id="game"></canvas>
-    <button id="startButton" onclick="startGame()">Start Game</button>
+    <div id="gameContainer">
+        <canvas width="400" height="400" id="game"></canvas>
+        <button id="startButton" onclick="startGame()">Start Game</button>
+        <div class="arrowContainer" id="arrowContainer">
+            <div class="arrowRow">
+                <button class="arrowButton" id="leftArrow" onclick="changeDirection(-1, 0)">&#8592;</button>
+            </div>
+            <div class="arrowRow">
+                <button class="arrowButton" id="upArrow" onclick="changeDirection(0, -1)">&#8593;</button>
+                <button class="arrowButton" id="downArrow" onclick="changeDirection(0, 1)">&#8595;</button>
+            </div>
+            <div class="arrowRow">
+                <button class="arrowButton" id="rightArrow" onclick="changeDirection(1, 0)">&#8594;</button>
+            </div>
+        </div>
+        <div id="score"></div>
+    </div>
+
     <script>
         var canvas = document.getElementById('game');
         var context = canvas.getContext('2d');
@@ -65,25 +123,14 @@
         var gameStarted = false;
         var gameover = false;
 
-        function drawStartGame() {
-            context.fillStyle = 'black';
-            context.fillRect(0, 0, canvas.width, canvas.height);
-            context.fillStyle = 'white';
-            context.font = '16px Arial';
-            context.fillText('Snake Game', canvas.width / 4 - 10, canvas.height / 2 - 16);
-            context.font = '14px Arial';
-            context.fillText('Press "Start Game" to play', canvas.width / 4 - 10, canvas.height / 2);
-        }
-
         function drawGameOver() {
             context.fillStyle = 'black';
             context.fillRect(0, 0, canvas.width, canvas.height);
             context.fillStyle = 'white';
             context.font = '16px Arial';
-            context.fillText('Game Over', canvas.width / 3 - 8, canvas.height / 2 - 16);
-            context.font = '14px Arial';
-            context.fillText('Score: ' + score, canvas.width / 3 - 8, canvas.height / 2);
-            context.fillText('Press "Start Game" to play again', canvas.width / 4 - 10, canvas.height / 2 + 20);
+            context.fillText('Game Over', canvas.width / 2, canvas.height / 2 - 16);
+            document.getElementById('startButton').style.display = 'inline-block'; // Show Start Game button
+            document.getElementById('score').textContent = 'Score: ' + score;
         }
 
         function loop() {
@@ -103,7 +150,7 @@
                 if (snake.x < 0 || snake.x >= canvas.width || snake.y < 0 || snake.y >= canvas.height) {
                     gameover = true;
                     drawGameOver();
-                    document.getElementById('startButton').style.display = 'inline-block';
+                    document.getElementById('arrowContainer').style.display = 'none'; // Hide arrows
                     return;
                 }
 
@@ -116,7 +163,7 @@
                 context.fillStyle = 'red';
                 context.fillRect(apple.x, apple.y, gridSize - 1, gridSize - 1);
 
-                context.fillStyle = 'green';
+    context.fillStyle = 'green';
                 snake.cells.forEach(function (cell, index) {
                     context.fillRect(cell.x, cell.y, gridSize - 1, gridSize - 1);
 
@@ -131,7 +178,7 @@
                         if (cell.x === snake.cells[i].x && cell.y === snake.cells[i].y) {
                             gameover = true;
                             drawGameOver();
-                            document.getElementById('startButton').style.display = 'inline-block';
+                            document.getElementById('arrowContainer').style.display = 'none'; // Hide arrows
                             return;
                         }
                     }
@@ -141,13 +188,15 @@
                 context.font = '14px Arial';
                 context.fillText('Score: ' + score, 10, 20);
             } else {
-                drawStartGame();
+                // drawStartGame();
             }
         }
 
         function startGame() {
             gameStarted = true;
             gameover = false;
+            document.getElementById('startButton').style.display = 'none'; // Hide Start Game button
+            document.getElementById('arrowContainer').style.display = 'block'; // Show arrows
             snake.x = 10 * gridSize;
             snake.y = 10 * gridSize;
             snake.cells = [];
@@ -155,27 +204,34 @@
             snake.dx = gridSize;
             snake.dy = 0;
             score = 0;
-            document.getElementById('startButton').style.display = 'none';
+            document.getElementById('score').textContent = ''; // Clear score text
             loop();
         }
 
+        function changeDirection(dx, dy) {
+            snake.dx = dx * gridSize;
+            snake.dy = dy * gridSize;
+        }
+
+        // Event listener for arrow key presses
         document.addEventListener('keydown', function (e) {
             if (gameStarted && !gameover) {
-                if (e.which === 37 && snake.dx === 0) {
+                if (e.key === 'ArrowLeft' && snake.dx === 0) {
                     snake.dx = -gridSize;
                     snake.dy = 0;
-                } else if (e.which === 38 && snake.dy === 0) {
+                } else if (e.key === 'ArrowUp' && snake.dy === 0) {
                     snake.dy = -gridSize;
                     snake.dx = 0;
-                } else if (e.which === 39 && snake.dx === 0) {
+                } else if (e.key === 'ArrowRight' && snake.dx === 0) {
                     snake.dx = gridSize;
                     snake.dy = 0;
-                } else if (e.which === 40 && snake.dy === 0) {
+                } else if (e.key === 'ArrowDown' && snake.dy === 0) {
                     snake.dy = gridSize;
                     snake.dx = 0;
                 }
             }
         });
+
     </script>
 </body>
 
