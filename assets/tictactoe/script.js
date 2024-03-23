@@ -1,3 +1,5 @@
+
+
 var board = [
         ['', '', ''],
         ['', '', ''],
@@ -12,6 +14,43 @@ var board = [
         hard: false,
         impossible: false
     };
+
+// Function to detect if the site is being viewed on a mobile device
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+// Function to adjust the size of the game elements for mobile devices
+function adjustSizeForMobile() {
+    if (isMobileDevice()) {
+        var container = document.querySelector('.container');
+        container.style.maxWidth = '80%'; // Adjust the container width
+        container.style.margin = '40% auto 0';
+
+        var cells = document.querySelectorAll('.cell');
+        cells.forEach(function(cell) {
+            cell.style.width = '150px'; // Adjust the cell width
+            cell.style.height = '150px'; // Adjust the cell height
+            cell.style.fontSize = '60px'; // Adjust the font size
+        });
+
+        var buttons = document.querySelectorAll('.controls button');
+        buttons.forEach(function(button) {
+            button.style.padding = '30px 60px'; // Adjust the button padding
+            button.style.fontSize = '40px'; // Adjust the button font size
+        });
+
+        var difficultyDisplay = document.getElementById('difficulty-display');
+        difficultyDisplay.style.fontFamily = 'Arial, sans-serif'; // Change the font
+        difficultyDisplay.style.fontSize = '45px'; // Adjust the font size
+    }
+}
+
+// Call the adjustSizeForMobile function when the page loads
+window.onload = function() {
+    adjustSizeForMobile();
+};
+
 
 function makeMove(row, col) {
     if (board[row][col] == '') {
