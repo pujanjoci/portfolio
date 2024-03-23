@@ -1,19 +1,17 @@
-
-
 var board = [
-        ['', '', ''],
-        ['', '', ''],
-        ['', '', '']
-    ];
+    ['', '', ''],
+    ['', '', ''],
+    ['', '', '']
+];
 
-    var currentPlayer = 'X';
-    var difficulty = 'easy';
-    var difficultyLocked = {
-        easy: false,
-        medium: false,
-        hard: false,
-        impossible: false
-    };
+var currentPlayer = 'X';
+var difficulty = 'easy';
+var difficultyLocked = {
+    easy: false,
+    medium: false,
+    hard: false,
+    impossible: false
+};
 
 // Function to detect if the site is being viewed on a mobile device
 function isMobileDevice() {
@@ -46,6 +44,17 @@ function adjustSizeForMobile() {
     }
 }
 
+function adjustEndGameMessageSize() {
+    var endGameMessage = document.getElementById('end-game-message');
+    if (isMobileDevice()) {
+        // Adjust font size for mobile devices
+        endGameMessage.style.fontSize = '60px';
+    } else {
+        // Set default font size for non-mobile devices
+        endGameMessage.style.fontSize = '24px';
+    }
+}
+
 // Call the adjustSizeForMobile function when the page loads
 window.onload = function() {
     adjustSizeForMobile();
@@ -59,16 +68,10 @@ function makeMove(row, col) {
 
         var winner = checkWin();
         if (winner) {
-            setTimeout(function() {
-                alert(winner + ' wins!');
-                resetBoard();
-            }, 100);
+            displayEndGameMessage(winner + ' wins!');
             return;
         } else if (isBoardFull()) {
-            setTimeout(function() {
-                alert('Draw!');
-                resetBoard();
-            }, 100);
+            displayEndGameMessage('Draw!');
             return;
         }
 
@@ -88,11 +91,33 @@ function makeMove(row, col) {
     }
 }
 
+function displayEndGameMessage(message) {
+    var endGameMessage = document.getElementById('end-game-message');
+    endGameMessage.innerHTML = message;
+    endGameMessage.style.display = 'block';
+    adjustEndGameMessageSize(); // Adjust size of end game message
+    // Hide end game message after 5 seconds
+    setTimeout(function() {
+        endGameMessage.style.display = 'none';
+        showDifficultyButtons(); // Show difficulty buttons after hiding end game message
+    }, 1500);
+}
+
+function hideEndGameMessage() {
+    var endGameMessage = document.getElementById('end-game-message');
+    endGameMessage.style.display = 'none';
+    showDifficultyButtons(); // Show difficulty buttons when end game message is hidden
+}
+
 function hideDifficultyButtons() {
     var buttons = document.getElementsByClassName('difficulty-buttons')[0];
     buttons.style.display = 'none';
 }
 
+function showDifficultyButtons() {
+    var buttons = document.getElementsByClassName('difficulty-buttons')[0];
+    buttons.style.display = 'block';
+}
 
 
 function minimax(board, depth, isMaximizingPlayer) {
@@ -180,6 +205,9 @@ function resetBoard() {
     };
 
     showDifficultyButtons(); // Show difficulty buttons
+
+     var endGameMessage = document.getElementById('end-game-message');
+    endGameMessage.style.display = 'none'; // Hide end game message when reset
 }
 
 function showDifficultyButtons() {
