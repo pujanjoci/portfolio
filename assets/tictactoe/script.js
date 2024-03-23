@@ -18,7 +18,6 @@ function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
-// Function to adjust the size of the game elements for mobile devices
 function adjustSizeForMobile() {
     if (isMobileDevice()) {
         var container = document.querySelector('.container');
@@ -59,7 +58,6 @@ function adjustEndGameMessageSize() {
 window.onload = function() {
     adjustSizeForMobile();
 };
-
 
 function makeMove(row, col) {
     if (board[row][col] == '') {
@@ -119,7 +117,6 @@ function showDifficultyButtons() {
     buttons.style.display = 'block';
 }
 
-
 function minimax(board, depth, isMaximizingPlayer) {
     var winner = checkWin();
     if (winner === 'X') {
@@ -178,10 +175,16 @@ function makeBestMove() {
     makeMove(move.i, move.j);
 }
 
-
 function setDifficulty(diff) {
-    difficulty = diff;
-    document.getElementById('difficulty-display').innerText = 'Difficulty: ' + difficulty;
+    if (!difficultyLocked[diff]) {
+        difficulty = diff;
+        document.getElementById('difficulty-display').innerText = 'Difficulty: ' + difficulty;
+
+        // Check if the game has ended
+        if (checkWin() || isBoardFull()) {
+            resetBoard(); // Reset the board if the game has ended
+        }
+    }
 }
 
 function resetBoard() {
@@ -195,7 +198,7 @@ function resetBoard() {
     for (var i = 0; i < cells.length; i++) {
         cells[i].innerHTML = '';
     }
-    
+
     // Unlock all difficulty levels
     difficultyLocked = {
         easy: false,
@@ -206,16 +209,9 @@ function resetBoard() {
 
     showDifficultyButtons(); // Show difficulty buttons
 
-     var endGameMessage = document.getElementById('end-game-message');
+    var endGameMessage = document.getElementById('end-game-message');
     endGameMessage.style.display = 'none'; // Hide end game message when reset
 }
-
-function showDifficultyButtons() {
-    var buttons = document.getElementsByClassName('difficulty-buttons')[0];
-    buttons.style.display = 'block';
-}
-
-
 
 function makeAIMove() {
     switch (difficulty) {
@@ -324,7 +320,7 @@ function checkWin() {
     for (var i = 0; i < lines.length; i++) {
         if (lines[i][0] == lines[i][1] && lines[i][1] == lines[i][2] && lines[i][0] != '') {
             return lines[i][0];
-        }
+           }
     }
     return false;
 }
@@ -339,10 +335,32 @@ function isBoardFull() {
     }
     return true;
 }
- function setDifficulty(diff) {
-            if (!difficultyLocked[diff]) {
-                difficulty = diff;
-                document.getElementById('difficulty-display').innerText = 'Difficulty: ' + difficulty;
-            }
+
+function setDifficulty(diff) {
+    if (!difficultyLocked[diff]) {
+        difficulty = diff;
+        document.getElementById('difficulty-display').innerText = 'Difficulty: ' + difficulty;
+
+        // Check if the game has ended
+        if (checkWin() || isBoardFull()) {
+            resetBoard(); // Reset the board if the game has ended
         }
+    }
+}
+
+// Function to reset the board when the reset button is clicked
+document.getElementById('reset-button').addEventListener('click', function() {
+    resetBoard();
+});
+
+// Call the adjustEndGameMessageSize function when the page loads
+window.onload = function() {
+    adjustEndGameMessageSize();
+};
+
+// Call the adjustSizeForMobile function when the page loads
+window.onload = function() {
+    adjustSizeForMobile();
+};
+
 
