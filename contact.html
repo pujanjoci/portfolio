@@ -121,6 +121,22 @@
         </div>
     </div>
 
+        <div class="chat-bubble">
+            <i class="fas fa-paper-plane"></i>
+        </div>
+        
+        <div class="chat-popup">
+            <div class="chat-popup-item">
+                <a href="https://www.facebook.com/profile.php?id=100087194320985" target="_blank">Chat with me in Messenger</a>
+                <img src="img/Messenger.png" alt="Messenger">
+            </div>
+
+            <div class="chat-popup-item">
+                <a href="https://t.me/Me9alon?start=chat" target="_blank">Chat with me in Telegram</a>
+                <img src="img/Telegram.png" alt="Telegram">
+            </div>
+        </div>
+
 
     <script src="js/script.js"></script>
     <script>
@@ -177,6 +193,21 @@
 
             window.location.href = mailtoLink;
         });
+
+                const chatBubble = document.querySelector('.chat-bubble');
+                    const chatPopup = document.querySelector('.chat-popup');
+
+                    // Close popup when clicked outside of the chat bubble or popup
+                    document.addEventListener('click', function (event) {
+                        if (!chatBubble.contains(event.target) && !chatPopup.contains(event.target)) {
+                            chatBubble.classList.remove('clicked');
+                        }
+                    });
+
+                    // Toggle popup display when chat bubble is clicked
+                    chatBubble.addEventListener('click', function () {
+                        this.classList.toggle('clicked');
+                    });
     </script>
 
 
