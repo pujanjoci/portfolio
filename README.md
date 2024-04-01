@@ -1,4 +1,4 @@
-# [Your Name]'s Portfolio
+# [Pujan Joshi]'s Portfolio
 
 Welcome to my personal portfolio! This repository showcases my projects, skills, and experiences in [Web-Development]. 
 Feel free to explore the projects and reach out if you have any questions or collaboration opportunities.
