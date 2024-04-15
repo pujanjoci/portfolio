@@ -309,6 +309,7 @@ li .profile_title {
     font-weight: 300;
 }
 
+/* Works */
 #works {
     text-align: center;
     display: grid;
@@ -316,29 +317,7 @@ li .profile_title {
     gap: 40px;
 }
 
-/* Media query for mobile devices */
-@media (max-width: 767px) {
-    #works {
-        grid-template-columns: 1fr;
-        /* Change to a 1-column grid */
-        gap: 20px;
-        /* Reduce the gap between grid items */
-    }
-
-    .preview-image {
-        width: 50%;
-        /* Set width to 50% */
-        height: 50%;
-        /* Set height to 50% */
-    }
-
-    .view-button {
-        bottom: 10%;
-        /* Adjust button position */
-    }
-}
-
-.preview {
+#works .preview {
     padding: 5px;
     border-radius: 10px;
     overflow: hidden;
@@ -346,11 +325,11 @@ li .profile_title {
     position: relative;
 }
 
-.preview p {
+#works .preview p {
     margin-top: 10px;
 }
 
-.preview-image {
+#works .preview .preview-image {
     width: 40%;
     height: 200px;
     object-fit: cover;
@@ -358,7 +337,7 @@ li .profile_title {
     filter: blur(5px);
 }
 
-.view-button {
+#works .preview .view-button {
     position: absolute;
     bottom: 40%;
     left: 50%;
@@ -372,8 +351,30 @@ li .profile_title {
     transition: background-color 0.3s;
 }
 
-.view-button:hover {
+#works .preview .view-button:hover {
     background-color: #0056b3;
+}
+
+/* Media query for mobile devices */
+@media (max-width: 767px) {
+    #works {
+        grid-template-columns: 1fr;
+        /* Change to a 1-column grid */
+        gap: 20px;
+        /* Reduce the gap between grid items */
+    }
+
+    #works .preview .preview-image {
+        width: 50%;
+        /* Set width to 50% */
+        height: 50%;
+        /* Set height to 50% */
+    }
+
+    #works .preview .view-button {
+        bottom: 10%;
+        /* Adjust button position */
+    }
 }
 
 /* Skills Container */
