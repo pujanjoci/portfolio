@@ -355,25 +355,19 @@ li .profile_title {
     background-color: #0056b3;
 }
 
-/* Media query for mobile devices */
 @media (max-width: 767px) {
     #works {
         grid-template-columns: 1fr;
-        /* Change to a 1-column grid */
         gap: 20px;
-        /* Reduce the gap between grid items */
     }
 
     #works .preview .preview-image {
         width: 50%;
-        /* Set width to 50% */
         height: 50%;
-        /* Set height to 50% */
     }
 
     #works .preview .view-button {
         bottom: 10%;
-        /* Adjust button position */
     }
 }
 
