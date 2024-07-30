@@ -1,4 +1,4 @@
-# Pujan Joshi's Portfolio 🌐
+<h1 align="center"> Pujan Joshi's Portfolio 🌐</h1>
 
 Welcome to my personal portfolio! This repository showcases my projects, skills, and experiences in web development.
 
