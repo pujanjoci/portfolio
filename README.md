@@ -1,41 +1,69 @@
-# Pujan Joshi's Portfolio
+# Pujan Joshi's Portfolio 🌐
 
-Welcome to my personal portfolio! This repository showcases my projects, skills, and experiences in Web-Development. 
-Feel free to explore the projects and reach out if you have any questions or collaboration opportunities.
+Welcome to my personal portfolio! This repository showcases my projects, skills, and experiences in web development.
 
-## About Me
+## Table of Contents 📚
 
-Hello! My name is Pujan Joshi, and I'm an undergraduate student in the Bachelor in Information Management (BIM) program.
+1. [About Me](#about-me)
+2. [Projects](#projects)
+3. [Skills](#skills)
+4. [Technical Skills](#technical-skills)
+5. [Education](#education)
+6. [Contact Me](#contact-me)
+7. [License](#license)
 
-I'm committed to continuous learning and self-improvement. This journey not only enhances my academic responsibilities but also fuels my personal growth.
+## About Me 👋
 
+Hello! I am Pujan Joshi, an undergraduate student pursuing a Bachelor in Information Management (BIM). I am a passionate web developer and designer dedicated to creating engaging and user-friendly digital experiences.
 
-## Projects
+With expertise in HTML, CSS, and JavaScript, and a strong focus on React.js, I build dynamic and responsive web applications. My portfolio includes a variety of projects that demonstrate my ability to create visually appealing and functional websites. You can review these projects in the [Resume](https://pujan-jochi.com.np/resume.html) section of my portfolio.
 
-### [Snake-Game](https://pujan-joshi.com.np/assets/snake.html)
-Description: This is a simple a snake game. This is a personal project to show case how javascript can be used to make a simple game.
+## Projects 🚀
 
-### [Rock-Paper-Sicissor](https://pujan-joshi.com.np/assets/rockpaper.html)
-Description: It is a randomizer game. This game is used to show case how javascript can create a simple randomizer game. 
-And used to style it using HTML and CSS to make it look like a game.
+### [Tic-Tac-Toe Game](https://pujan-joshi.com.np/assets/tictactoe/Index.html) 🎮
+An interactive game where players test their strategic skills against an increasingly intelligent computer opponent. The game features four difficulty levels, ranging from easy to impossible.
 
-### [Tic-Tac-Toe Game](https://pujan-joshi.com.np/assets/tictactoe/Index.html)
-Description: This interactive game offers players the chance to test their strategic skills against an increasingly clever computer opponent. 
-With four levels of difficulty to choose from, ranging from easy to impossible. Can the player outsmart the AI and to claim victory, or will the simple ai prove to be an unbeatable opponent? 
+### [Blog-Site](https://pujanjoci.github.io/blog-site/) 📝
+A blog site designed to showcase articles and demonstrate website design and responsiveness. This site serves as a platform for my previous writings and will continue to host future blog posts.
 
-## Skills
+### [School Website Template](https://pujanjoci.github.io/School/) 🏫
+A React and Tailwind CSS-based template showcasing a school website design. This project was developed in collaboration with [Siddh07](https://github.com/Siddh07), who contributed to the design.
 
-- Design Development
+### [Weather Forecasting](https://pujanjoci.github.io/weather-app/) ☀️🌧️
+A weather forecasting application built with React that integrates with the OpenWeather API. This project demonstrates API integration and is a foundational piece of my React development experience.
+
+Explore other projects and updates on my [GitHub](https://github.com/pujanjoci).
+
+### [Portfolio Site](https://pujan-joshi.com.np/) 🌟
+
+## Skills 💡
+
 - Web Development
-- Proficiency in various programming language
+- Problem-Solving
+- Attention to Detail
+- Communication
+- Adaptability
 
-## Education
+## Technical Skills 🛠️
 
-- Highschool-Degree, Computer-Science, V.S. Niketan, 2019
-- Bachelor-Degree, Information-Management, Nepal Commerce Campus, TU, 2024
+- HTML/CSS
+- JavaScript
+- React.js
+- Version Control
+- Responsive Design
+- Performance Optimization
 
-## Contact Me
+## Education 🎓
 
-- Email: pujanjoci01@gmail.com
-- LinkedIn: (https://www.linkedin.com/in/pujan-joshi-b811071a1/)
-- Personal Website: (https://pujan-joshi.com.np)
+- **High School Degree** in Computer Science, V.S. Niketan, 2019
+- **Bachelor’s Degree** in Information Management, Nepal Commerce Campus, TU, 2024
+
+## Contact Me 📧
+
+- **Email:** [pujanjoci01@gmail.com](mailto:pujanjoci01@gmail.com)
+- **LinkedIn:** [Pujan Joshi](https://www.linkedin.com/in/pujan-joshi-b811071a1/)
+- **Personal Website:** [pujan-joshi.com.np](https://pujan-joshi.com.np)
+
+## License 📝
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
