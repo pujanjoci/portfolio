@@ -208,7 +208,7 @@ body {
 }
 
 .about_page .about_content {
-    margin-top: 1.2rem;
+    margin-top: 0.5rem;
     padding: 0.4rem;
     margin-bottom: 0.5rem;
 }
@@ -307,6 +307,16 @@ li .profile_title {
 .resume_box .resume_text {
     font-size: 1rem;
     font-weight: 300;
+}
+
+
+#meprofile {
+    margin-top: 10px;
+    text-align: center;
+}
+
+#profilemessage {
+    color: gray;
 }
 
 /* Works */
@@ -448,7 +458,7 @@ li .profile_title {
 }
 
 .services_page .services_container .services_box:hover i,
-.services_page .services_container .services_box:hover .services_title{
+.services_page .services_container .services_box:hover .services_title {
     color: white;
     transition: 0.3s;
 }
@@ -818,4 +828,3 @@ li .profile_title {
         width: 100%;
     }
 }
-
