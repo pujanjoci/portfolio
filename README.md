@@ -33,6 +33,8 @@ A React and Tailwind CSS-based template showcasing a school website design. This
 A weather forecasting application built with React that integrates with the OpenWeather API. This project demonstrates API integration and is a foundational piece of my React development experience.
 
 Explore other projects and updates on my [GitHub](https://github.com/pujanjoci).
+<h3>OR</h3>
+visit my portfolio
 
 ### [Portfolio Site](https://pujan-joshi.com.np/) 🌟
 
