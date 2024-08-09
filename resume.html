@@ -215,55 +215,78 @@
             <div id="works">
                 <div class="preview">
                     <img class="preview-image" src="assets/img/cv.png" alt="CV Preview">
-                    <button class="view-button" onclick="window.location.href='assets/PujanJoshi(CV).pdf'">View</button>
+                    <button class="view-button" onclick="window.location.href='assets/PujanJoshi(CV).pdf'">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <p>CV</p>
                 </div>
+
                 <div class="preview">
                     <img class="preview-image" src="assets/img/snake.png" alt="Games Preview">
-                    <button class="view-button" onclick="window.location.href='assets/snake.html'">View</button>
+                    <button class="view-button" onclick="window.location.href='assets/snake.html'">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <p>Snake-Game</p>
                 </div>
+                
                 <div class="preview">
                     <img class="preview-image" src="assets/img/tictactoe.png" alt="Games Preview">
-                    <button class="view-button"
-                        onclick="window.location.href='assets/tictactoe/Index.html'">View</button>
-                    <p>Ticiactoe-Game</p>
+                    <button class="view-button" onclick="window.location.href='assets/tictactoe/Index.html'">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <p>Tictactoe-Game</p>
                 </div>
+                
                 <div class="preview">
                     <img class="preview-image" src="assets/img/rock.png" alt="Games Preview">
-                    <button class="view-button" onclick="window.location.href='assets/rockpaper.html'">View</button>
+                    <button class="view-button" onclick="window.location.href='assets/rockpaper.html'">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <p>RockPaperScissors</p>
                 </div>
+                
                 <div class="preview">
-                    <img class="preview-image" src="assets/img/weather-app.png" alt="project Preview">
-                    <button class="view-button"
-                        onclick="window.location.href='https://pujanjoci.github.io/weather-app/'">View</button>
+                    <img class="preview-image" src="assets/img/weather-app.png" alt="Project Preview">
+                    <button class="view-button" onclick="window.location.href='https://pujanjoci.github.io/weather-app/'">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <p>React Weather-app</p>
                 </div>
+                
                 <div class="preview">
                     <img class="preview-image" src="assets/img/houselocater.png" alt="Project Preview">
-                    <button class="view-button"
-                        onclick="window.location.href='https://pujanjoci.github.io/houselocater/'">View</button>
-                    <p>E-Commerce Site(HouseLocater)</p>
+                    <button class="view-button" onclick="window.location.href='https://pujanjoci.github.io/houselocater/'">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <p>E-Commerce Site (HouseLocater)</p>
                 </div>
+                
                 <div class="preview">
                     <img class="preview-image" src="assets/img/blog.png" alt="Project Preview">
-                    <button class="view-button"
-                        onclick="window.location.href='https://pujanjoci.github.io/blog-site/'">View</button>
+                    <button class="view-button" onclick="window.location.href='https://pujanjoci.github.io/blog-site/'">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <p>Blog-Site</p>
                 </div>
+                
                 <div class="preview">
                     <img class="preview-image" src="assets/img/School.png" alt="Project Preview">
-                    <button class="view-button"
-                        onclick="window.location.href='https://pujanjoci.github.io/School/'">View</button>
+                    <button class="view-button" onclick="window.location.href='https://pujanjoci.github.io/School/'">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <p>School-Website</p>
                 </div>
+                
                 <div class="preview">
                     <img class="preview-image" src="assets/img/template.png" alt="Summer Project Preview">
-                    <button class="view-button" onclick="window.location.href='project/index.html'">View</button>
+                    <button class="view-button" onclick="window.location.href='project/index.html'">
+                        <i class="fas fa-eye"></i>
+                    </button>
                     <p>SP-template</p>
                 </div>
+                
             </div>
+            
 
             <div id="meprofile" style="margin: 5%;">
                 <p id="profilemessage">
@@ -287,5 +310,24 @@
 
 
     <script src="js/script.js"></script>
+    <script>
+       document.querySelectorAll('.view-button').forEach(button => {
+            button.addEventListener('click', function () {
+                const icon = this.querySelector('i');
+
+                if (icon.classList.contains('fa-eye-slash')) {
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                } else {
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                }
+
+                // Redirect to the specified URL
+                const redirectUrl = this.getAttribute('onclick').replace("window.location.href=", "").replace(/['"]+/g, '');
+                window.location.href = redirectUrl;
+            });
+        });
+    </script>
 
 </html>

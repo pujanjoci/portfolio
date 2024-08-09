@@ -1,5 +1,6 @@
 /* Google Font */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css');
 
 /* CSS Reset */
 * {
@@ -340,7 +341,7 @@ li .profile_title {
 }
 
 #works .preview .preview-image {
-    width: 40%;
+    width: 45%; 
     height: 200px;
     object-fit: cover;
     border-radius: 10px;
@@ -356,13 +357,37 @@ li .profile_title {
     background-color: #007bff;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 10px; /* Maintain the original rounded corners */
     cursor: pointer;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: background-color 0.3s;
 }
 
 #works .preview .view-button:hover {
     background-color: #0056b3;
+}
+
+#works .preview .view-button i {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#works .preview .view-button:hover i {
+    animation: eye-open 0.3s forwards;
+}
+
+/* Eye-opening animation */
+@keyframes eye-open {
+    from {
+        transform: scaleY(0);
+        opacity: 0.5;
+    }
+    to {
+        transform: scaleY(1);
+        opacity: 1;
+    }
 }
 
 @media (max-width: 767px) {
@@ -372,12 +397,12 @@ li .profile_title {
     }
 
     #works .preview .preview-image {
-        width: 50%;
-        height: 50%;
+        width: 45%;
+        height: 200px;
     }
 
     #works .preview .view-button {
-        bottom: 10%;
+        bottom: 50%;
     }
 }
 
